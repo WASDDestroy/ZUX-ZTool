@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" /> <!-- 悬浮窗权限 -->
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /> <!-- 小窗气泡服务开机自启 -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE"/> <!-- 前台服务权限，适用于TargetAPI 36 -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> <!-- 使用情况统计权限 -->
@@ -47,11 +48,31 @@
             android:exported="false"
             android:foregroundServiceType="specialUse" />
         <service
+            android:name=".service.EdgeBubbleService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="freeform_edge_bubble_overlay" />
+        </service>
+        <service
             android:name=".service.MediaOutputTileService"
             android:enabled="true"
             android:exported="true"
             android:icon="@drawable/ic_media_output_tile"
             android:label="@string/tile_media_output_label"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".service.ReduceBrightColorsTileService"
+            android:enabled="true"
+            android:exported="true"
+            android:icon="@drawable/ic_reduce_bright_colors_tile"
+            android:label="@string/tile_reduce_bright_colors_label"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
@@ -67,15 +88,41 @@
                 <data android:scheme="package" />
             </intent-filter>
         </receiver>
+        <receiver
+            android:name=".service.EdgeBubbleBootReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+        </receiver>
         <activity
             android:name=".MainActivity"
             android:exported="true">
+            <!-- Xposed 模块约定入口：LSPosed 管理器的“启动”菜单优先解析该 category
+                 （AppHelper.getSettingsIntent），保证桌面 alias 被禁用后仍可从 LSPosed 打开，
+                 且优先于 LeakCanary 的 LAUNCHER alias 命中。 -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS" />
+            </intent-filter>
+        </activity>
+        <!-- 桌面图标本体。禁用该 alias 即可隐藏桌面图标（PackageManager 组件开关），
+             MainActivity 保持 enabled 以便 LSPosed 等外部入口显式拉起。 -->
+        <activity-alias
+            android:name=".LauncherAlias"
+            android:enabled="true"
+            android:exported="true"
+            android:targetActivity=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+        </activity-alias>
         <activity
             android:name=".uninstall.BatchUninstallActivity"
             android:excludeFromRecents="true"

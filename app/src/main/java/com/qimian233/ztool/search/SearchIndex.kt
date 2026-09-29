@@ -911,6 +911,11 @@ object SearchIndex {
             summaryRes = R.string.settings_zui_force_freeform_summary
         ),
         settingsDetail.item(
+            id = "settings_detail_edge_bubble",
+            titleRes = R.string.settings_edge_bubble_title,
+            summaryRes = R.string.settings_edge_bubble_summary
+        ),
+        settingsDetail.item(
             id = "settings_detail_zui_force_fixed",
             titleRes = R.string.settings_zui_force_fixed_title,
             summaryRes = R.string.settings_zui_force_fixed_summary
@@ -1060,10 +1065,6 @@ object SearchIndex {
         ota.item(
             id = "ota_info_fetch",
             titleRes = R.string.system_update_ota_info_fetch_title
-        ),
-        ota.item(
-            id = "ota_pc_flash_firmware_fetch",
-            titleRes = R.string.system_update_pc_flash_firmware_fetch_title
         ),
 
         tbEngine.item(
@@ -1232,6 +1233,10 @@ object SearchIndex {
             titleRes = R.string.launcher_disable_recent_app_display
         ),
         launcher.item(
+            id = "launcher_force_freeform_entry",
+            titleRes = R.string.launcher_force_freeform_entry_title
+        ),
+        launcher.item(
             id = "launcher_larger_dock",
             titleRes = R.string.launcher_larger_dock_title,
             parentTitleRes = R.string.launcher_disable_dock_bar_title,
@@ -1247,6 +1252,13 @@ object SearchIndex {
             id = "launcher_force_stop_mode",
             titleRes = R.string.launcher_disable_force_stop_enable_title,
             summaryRes = R.string.launcher_disable_force_stop_enable_summary
+        ),
+        launcher.item(
+            id = "launcher_force_stop_whitelist",
+            titleRes = R.string.launcher_disable_force_stop_enable_title,
+            summaryRes = R.string.launcher_protected_apps_summary,
+            parentTitleRes = R.string.launcher_disable_force_stop_enable_title,
+            parentKey = "launcher_force_stop_mode"
         ),
         launcher.item(
             id = "launcher_show_ram_info",
@@ -1347,6 +1359,20 @@ object SearchIndex {
             summaryRes = R.string.page_settings_display_entry_in_settings_summary
         ),
         appSettings.item(
+            id = "app_settings_show_all_apps",
+            titleRes = R.string.page_settings_show_all_apps,
+            summaryRes = R.string.page_settings_show_all_apps_summary
+        ),
+        appSettings.item(
+            id = "app_settings_hide_from_recents",
+            titleRes = R.string.page_settings_hide_from_recents
+        ),
+        appSettings.item(
+            id = "app_settings_hide_launcher_icon",
+            titleRes = R.string.page_settings_hide_launcher_icon,
+            summaryRes = R.string.page_settings_hide_launcher_icon_summary
+        ),
+        appSettings.item(
             id = "app_settings_auto_check_update",
             titleRes = R.string.page_settings_auto_check_update_title
         ),
@@ -1375,6 +1401,11 @@ object SearchIndex {
         appSettings.item(
             id = "app_settings_advanced",
             titleRes = R.string.page_settings_advanced_title
+        ),
+        appSettings.item(
+            id = "app_settings_misc",
+            titleRes = R.string.page_settings_misc_title,
+            summaryRes = R.string.page_settings_misc_summary
         ),
         appSettings.item(
             id = "app_settings_about",
@@ -1440,6 +1471,11 @@ object SearchIndex {
         ),
 
         advancedSettings.item(
+            id = "advanced_preference_editor",
+            titleRes = R.string.preference_editor_title,
+            summaryRes = R.string.preference_editor_summary
+        ),
+        advancedSettings.item(
             id = "advanced_refresh_dex_index",
             titleRes = R.string.page_settings_refresh_dex_index
         ),
@@ -1473,8 +1509,23 @@ object SearchIndex {
             summaryRes = R.string.engineering_codes_summary
         ),
         miscSettings.item(
+            id = "misc_open_reduce_bright_colors",
+            titleRes = R.string.page_settings_misc_open_reduce_bright_colors_title,
+            summaryRes = R.string.page_settings_misc_open_reduce_bright_colors_summary
+        ),
+        miscSettings.item(
+            id = "misc_open_app_battery_usage",
+            titleRes = R.string.page_settings_misc_open_app_battery_usage_title,
+            summaryRes = R.string.page_settings_misc_open_app_battery_usage_summary
+        ),
+        miscSettings.item(
             id = "misc_api_version",
             titleRes = R.string.page_settings_advanced_api_version
+        ),
+        miscSettings.item(
+            id = "misc_pc_flash_firmware_fetch",
+            titleRes = R.string.system_update_pc_flash_firmware_fetch_title,
+            summaryRes = R.string.system_update_pc_flash_firmware_fetch_summary
         ),
 
         aboutScreen.item(
@@ -1515,6 +1566,16 @@ object SearchIndex {
             id = "about_view_issues",
             titleRes = R.string.page_settings_about_view_issues_title,
             summaryRes = R.string.page_settings_about_view_issues_summary
+        ),
+        aboutScreen.item(
+            id = "about_user_agreement",
+            titleRes = R.string.page_settings_about_user_agreement_title,
+            summaryRes = R.string.page_settings_about_user_agreement_summary
+        ),
+        aboutScreen.item(
+            id = "about_beta_build",
+            titleRes = R.string.page_settings_about_beta_build_title,
+            summaryRes = R.string.page_settings_about_beta_build_summary
         ),
         aboutScreen.item(
             id = "about_check_update",

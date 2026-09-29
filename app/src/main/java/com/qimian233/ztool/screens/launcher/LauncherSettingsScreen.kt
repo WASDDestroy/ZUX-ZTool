@@ -129,6 +129,7 @@ fun LauncherSettingsRoute(
             onLauncherHideBluePointChanged = viewModel::setLauncherHideBluePoint,
             onCloudFolderDismissChanged = viewModel::setCloudFolderAutoDismiss,
             onDisableRecentAppDisplayChanged = viewModel::setDisableRecentAppDisplay,
+            onForceFreeformEntryChanged = viewModel::setForceFreeformEntry,
             onLauncherBatchUninstallChanged = viewModel::setLauncherBatchUninstall,
             onBigFolderAlignChanged = viewModel::setBigFolderAlign,
             onAppIconUnmaskChanged = viewModel::setAppIconUnmask,
@@ -210,6 +211,7 @@ private fun LauncherSettingsScreen(
     onLauncherHideBluePointChanged: (Boolean) -> Unit,
     onCloudFolderDismissChanged: (Boolean) -> Unit,
     onDisableRecentAppDisplayChanged: (Boolean) -> Unit,
+    onForceFreeformEntryChanged: (Boolean) -> Unit,
     onLauncherBatchUninstallChanged: (Boolean) -> Unit,
     onBigFolderAlignChanged: (Boolean) -> Unit,
     onAppIconUnmaskChanged: (Boolean) -> Unit,
@@ -276,6 +278,7 @@ private fun LauncherSettingsScreen(
                         onLauncherHideBluePointChanged = onLauncherHideBluePointChanged,
                         onCloudFolderDismissChanged = onCloudFolderDismissChanged,
                         onDisableRecentAppDisplayChanged = onDisableRecentAppDisplayChanged,
+                        onForceFreeformEntryChanged = onForceFreeformEntryChanged,
                         onLauncherBatchUninstallChanged = onLauncherBatchUninstallChanged,
                         onBigFolderAlignChanged = onBigFolderAlignChanged,
                         onAppIconUnmaskChanged = onAppIconUnmaskChanged,
@@ -314,6 +317,7 @@ private fun launcherSettingsSections(
     onLauncherHideBluePointChanged: (Boolean) -> Unit,
     onCloudFolderDismissChanged: (Boolean) -> Unit,
     onDisableRecentAppDisplayChanged: (Boolean) -> Unit,
+    onForceFreeformEntryChanged: (Boolean) -> Unit,
     onLauncherBatchUninstallChanged: (Boolean) -> Unit,
     onBigFolderAlignChanged: (Boolean) -> Unit,
     onAppIconUnmaskChanged: (Boolean) -> Unit,
@@ -543,6 +547,15 @@ private fun launcherSettingsSections(
                 )
             )
         }
+        add(
+            SettingItem.Switch(
+                title = stringResource(R.string.launcher_force_freeform_entry_title),
+                summary = stringResource(R.string.launcher_force_freeform_entry_summary),
+                checked = state.forceFreeformEntry,
+                onCheckedChange = onForceFreeformEntryChanged,
+                key = "launcher_force_freeform_entry"
+            )
+        )
         add(
             SettingItem.Switch(
                 title = stringResource(R.string.launcher_show_ram_info),

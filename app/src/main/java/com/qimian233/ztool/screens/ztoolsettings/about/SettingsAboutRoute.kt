@@ -26,7 +26,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
@@ -41,6 +43,7 @@ import com.qimian233.ztool.BuildConfig
 import com.qimian233.ztool.MainActivity
 import com.qimian233.ztool.ModuleActivationProbe
 import com.qimian233.ztool.R
+import com.qimian233.ztool.data.home.AgreementRepository
 import com.qimian233.ztool.data.home.HomeRepository
 import com.qimian233.ztool.screens.home.HomeViewModelFactory
 import com.qimian233.ztool.ui.components.ExpressiveSectionItems
@@ -50,8 +53,11 @@ import com.qimian233.ztool.ui.components.HighlightController
 import com.qimian233.ztool.ui.components.HighlightableSettingRow
 import com.qimian233.ztool.ui.components.ZListItem
 import com.qimian233.ztool.ui.components.ZToolCard
+import com.qimian233.ztool.ui.components.ZToolDialog
 import com.qimian233.ztool.ui.components.ZToolPageSurface
 import com.qimian233.ztool.ui.components.ZToolScaffold
+import com.qimian233.ztool.ui.components.ZToolTextButton
+import com.qimian233.ztool.ui.firstrun.AgreementContentCard
 import com.qimian233.ztool.ui.components.ZToolTopAppBar
 import com.qimian233.ztool.ui.theme.FrontendStyle
 import com.qimian233.ztool.ui.theme.LocalZToolColorScheme
@@ -96,6 +102,7 @@ fun SettingsAboutRoute(
             highlightRegistry = highlightRegistry,
             onOpenGithub = { openExternalLink(context, "https://github.com/qwqawa64/ZUX-ZTool") },
             onOpenGithubIssues = { openExternalLink(context, "https://github.com/qwqawa64/ZUX-ZTool/issues") },
+            onOpenGithubActions = { openExternalLink(context, "https://github.com/qwqawa64/ZUX-ZTool/actions") },
             onOpenUnfuckZUI = { openExternalLink(context, "https://github.com/dantmnf/UnfuckZUI") },
             onOpenZuxOsPlus = { openExternalLink(context, "https://github.com/morannlx/me.inkdye.zuxos") },
             onOpenGitHubAccelerationSite = { openExternalLink(context, "https://gh.absinthe.life/") },
@@ -133,6 +140,7 @@ private fun SettingsAboutScreen(
     onBack: () -> Unit,
     onOpenGithub: () -> Unit,
     onOpenGithubIssues: () -> Unit,
+    onOpenGithubActions: () -> Unit,
     onOpenUnfuckZUI: () -> Unit,
     onOpenZuxOsPlus: () -> Unit,
     onOpenGitHubAccelerationSite: () -> Unit,
@@ -177,6 +185,10 @@ private fun SettingsAboutScreen(
             onCheckUpdate()
         }
     }
+    val agreementMarkdown = remember(context) {
+        AgreementRepository(context).loadAgreementMarkdown()
+    }
+    var showAgreementDialog by remember { mutableStateOf(false) }
 
     ZToolScaffold(
         topBar = {
@@ -258,7 +270,7 @@ private fun SettingsAboutScreen(
                     )
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-                AboutSectionCard(stringResource(R.string.page_settings_about_open_source_title), 3) { getModifier ->
+                AboutSectionCard(stringResource(R.string.page_settings_about_project_info_title), 4) { getModifier ->
                     AboutActionRow(
                         title = stringResource(R.string.page_settings_about_view_source_title),
                         summary = null,
@@ -276,19 +288,37 @@ private fun SettingsAboutScreen(
                     AboutActionRow(
                         title = stringResource(R.string.page_settings_about_license_title),
                         summary = stringResource(R.string.page_settings_about_license_summary),
-                        onClick = {},
-                        modifier = getModifier(2),
-                        showTrailingArrow = false
+                        onClick = {
+                            openExternalLink(
+                                context,
+                                "https://github.com/qwqawa64/ZUX-ZTool/blob/master/LICENSE"
+                            )
+                        },
+                        modifier = getModifier(2)
+                    )
+                    AboutActionRow(
+                        title = stringResource(R.string.page_settings_about_user_agreement_title),
+                        summary = stringResource(R.string.page_settings_about_user_agreement_summary),
+                        onClick = { showAgreementDialog = true },
+                        highlightKey = "about_user_agreement",
+                        modifier = getModifier(3)
                     )
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-                AboutSectionCard(stringResource(R.string.page_settings_about_app_update_section_title), 1) { getModifier ->
+                AboutSectionCard(stringResource(R.string.page_settings_about_app_update_section_title), 2) { getModifier ->
+                    AboutActionRow(
+                        title = stringResource(R.string.page_settings_about_beta_build_title),
+                        summary = stringResource(R.string.page_settings_about_beta_build_summary),
+                        onClick = onOpenGithubActions,
+                        highlightKey = "about_beta_build",
+                        modifier = getModifier(0)
+                    )
                     AboutActionRow(
                         title = stringResource(R.string.page_settings_about_app_update_title),
                         summary = updateSummary,
                         onClick = updateRowClick,
                         highlightKey = "about_check_update",
-                        modifier = getModifier(0),
+                        modifier = getModifier(1),
                         showTrailingArrow = true
                     )
                 }
@@ -297,6 +327,21 @@ private fun SettingsAboutScreen(
         }
     }
 
+    if (showAgreementDialog) {
+        ZToolDialog(
+            onDismissRequest = { showAgreementDialog = false },
+            title = { Text(stringResource(R.string.page_settings_about_user_agreement_title)) },
+            text = {
+                AgreementContentCard(markdownText = agreementMarkdown)
+            },
+            confirmButton = {
+                ZToolTextButton(
+                    text = stringResource(R.string.settings_close_button),
+                    onClick = { showAgreementDialog = false }
+                )
+            }
+        )
+    }
 }
 
 internal const val SettingsAboutRouteName = "SettingsAbout"

@@ -30,6 +30,8 @@ object PreferenceKeys {
     val KEEP_ROTATION = BoolKey("keep_rotation", false)
     val ALLOW_RELATIVE_APP_LAUNCH = BoolKey("allow_relative_app_launch", false)
     val FORCE_RELATIVE_APP_FREEFORM = BoolKey("force_relative_app_freeform", false)
+    val LAUNCHER_FORCE_FREEFORM_ENTRY = BoolKey("launcher_force_freeform_entry", false)
+    val FREEFORM_EDGE_BUBBLE = BoolKey("freeform_edge_bubble", false)
     val DISABLE_HBM_THERMAL_LIMIT = BoolKey("disable_hbm_thermal_limit", false)
     // One-shot maintenance action marker: clears stale ZUI night-mode override
     // (ui_night_mode_override_on/off) via root; not read by any hook module
@@ -120,6 +122,7 @@ object PreferenceKeys {
     val SETTINGS_APP_ICON_UNMASK = BoolKey("settings_app_icon_unmask", false)
     val ABOUT_DEVICE_INFO = BoolKey("about_device_info", false)
     val ZTOOL_SETTINGS_ENTRY = BoolKey("ztool_settings_entry", false)
+    val ZTOOL_SETTINGS_SHOW_ALL_APPS = BoolKey("ztool_settings_show_all_apps", false)
     val HIDE_OTA_UPDATE_HINT = BoolKey("hide_ota_update_hint", false)
     val ALLOW_ADD_LANGUAGE = BoolKey("allow_add_language", false)
 
@@ -204,6 +207,8 @@ object PreferenceKeys {
     val IS_DETAILED_LOGGING = BoolKey("isDetailedLogging", false)
     val HALF_WIDTH_PUNCT = BoolKey("half_width_punct", false)
     val AUTO_CHECK_UPDATE = BoolKey("auto_check_update", true)
+    // App-local behavior: exclude ZTool's own tasks from the recents overview
+    val HIDE_FROM_RECENTS = BoolKey("hide_from_recents", false)
     val YIYAN = BoolKey("YiYan", false)
     val IS_SYSTEMUI_PERMISSION_CONFIRMED = BoolKey("isSystemUIPermissionConfirmed", false)
     val IS_CONFIG_UPGRADED = BoolKey("isConfigUpgraded", false)
@@ -285,6 +290,7 @@ object PreferenceKeys {
         DISABLE_FLAG_SECURE, ALLOW_GET_PACKAGES,
         ALLOW_UNTRUSTED_TOUCH, FORCE_SCREEN_ON_OFF_ANIMATION, AI_INPUT_EXPAND,
         KEEP_ROTATION, ALLOW_RELATIVE_APP_LAUNCH, FORCE_RELATIVE_APP_FREEFORM,
+        LAUNCHER_FORCE_FREEFORM_ENTRY, FREEFORM_EDGE_BUBBLE,
         DISABLE_HBM_THERMAL_LIMIT, FIX_NIGHT_MODE_OVERRIDE,
         PKG_MGR_ALLOW_DOWNGRADE, PKG_MGR_BYPASS_VERIFICATION,
         PKG_MGR_DISABLE_VERIFICATION_AGENT, PKG_MGR_BYPASS_DIGEST,
@@ -315,7 +321,7 @@ object PreferenceKeys {
         CUSTOMIZE_SLIDER_STYLE_PREVIOUS_VALUE,
         REMOVE_BLACKLIST, ALLOW_DISPLAY_DOLBY, PERMISSION_CONTROLLER_HOOK,
         AUTO_OWNER_INFO, SPLIT_SCREEN_MANDATORY, APP_DETAILS,
-        ABOUT_DEVICE_INFO, ZTOOL_SETTINGS_ENTRY, HIDE_OTA_UPDATE_HINT, ALLOW_ADD_LANGUAGE,
+        ABOUT_DEVICE_INFO, ZTOOL_SETTINGS_ENTRY, ZTOOL_SETTINGS_SHOW_ALL_APPS, HIDE_OTA_UPDATE_HINT, ALLOW_ADD_LANGUAGE,
         ABOUT_DEVICE_INFO_MODEL_ENABLED, ABOUT_DEVICE_INFO_CPU_ENABLED,
         ABOUT_DEVICE_INFO_RAM_ENABLED, ABOUT_DEVICE_INFO_ROM_ENABLED,
         ABOUT_DEVICE_INFO_SOFTWARE_ENABLED, ABOUT_DEVICE_INFO_HEADER_ENABLED,
@@ -346,7 +352,7 @@ object PreferenceKeys {
         DISABLE_ALL_VIRUS_SCANS, DEFAULT_ENABLE_AUTORUN,
         AUTO_ACCEPT_FILE_TRANSFER, BYPASS_SHARE_WARNING,
         DISABLE_NEARBY_SHARE_COUNTDOWN,
-        IS_DETAILED_LOGGING, AUTO_CHECK_UPDATE,
+        IS_DETAILED_LOGGING, AUTO_CHECK_UPDATE, HIDE_FROM_RECENTS,
         YIYAN, IS_SYSTEMUI_PERMISSION_CONFIRMED, IS_CONFIG_UPGRADED,
         HALF_WIDTH_PUNCT,
         SYSTEMUI_REALWATTS_SHOW_VOLTAGE, SYSTEMUI_REALWATTS_SHOW_CURRENT,

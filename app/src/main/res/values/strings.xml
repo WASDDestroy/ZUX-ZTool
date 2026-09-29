@@ -27,6 +27,14 @@
     <string name="page_firstrun_agreement_screen_title">首次运行说明</string>
     <string name="page_firstrun_agreement_screen_subtitle">首先，请仔细阅读用户协议</string>
     <string name="page_firstrun_permissions_title">权限配置</string>
+    <string name="page_firstrun_verify_title">额外确认</string>
+    <string name="page_firstrun_verify_subtitle">输入本应用的仓库名</string>
+    <string name="page_firstrun_verify_body">近期注意到部分平台在未经原作者授权的情况下上架本软件副本。这些副本可能已经经过修改，可能包含可利用 Root 权限执行的恶意代码。建议您仅从以下渠道下载软件：</string>
+    <string name="page_firstrun_verify_channel_1">我们的 Xposed 模块仓库</string>
+    <string name="page_firstrun_verify_channel_2">我们的 GitHub 仓库 release 页面</string>
+    <string name="page_firstrun_verify_instruction">为了核对来源，请输入我们的 GitHub 仓库的名称。只有输入正确的仓库名称您才可以继续操作。如果您从 Xposed 模块仓库下载本模块，请查看源码 url 获取相关信息：</string>
+    <string name="page_firstrun_verify_input_label">仓库名称</string>
+    <string name="page_firstrun_verify_input_hint">请输入仓库名称</string>
     <string name="page_firstrun_permissions_subtitle">授权后方可使用模块功能</string>
     <string name="page_firstrun_permissions_check_title">权限检查与处理</string>
     <string name="page_firstrun_permissions_ready">所有权限要求已满足，可以继续</string>
@@ -42,6 +50,9 @@
     <string name="page_firstrun_usage_summary">检查是否可以获取使用状态权限。该权限用于添加一视界自定义规则。</string>
     <string name="page_firstrun_overlay_title">悬浮窗</string>
     <string name="page_firstrun_overlay_summary">检查是否可以获取悬浮窗权限。该权限用于显示一视界配置向导。</string>
+    <string name="page_firstrun_autostart_title">自启动</string>
+    <string name="page_firstrun_autostart_summary">点击跳转联想安全中心，允许 ZTool 自启动。重启后功能服务（如小窗气泡）即可自动恢复，无需手动打开应用。</string>
+    <string name="page_firstrun_autostart_open_failed">未能打开联想安全中心，请手动进入安全中心的自启动管理开启</string>
     <!--重启菜单资源值-->
     <string name="page_home_soft_reboot">软重启</string>
     <string name="page_home_reboot">重启</string>
@@ -182,9 +193,11 @@
     <string name="page_settings_about_ztool_title">关于ZTool</string>
     <string name="page_settings_about_developers_title">开发者</string>
     <string name="page_settings_about_acknowledgements_title">致谢</string>
-    <string name="page_settings_about_open_source_title">开源信息</string>
+    <string name="page_settings_about_project_info_title">项目信息</string>
     <string name="page_settings_about_app_update_section_title">应用更新</string>
     <string name="page_settings_about_app_update_title">检查应用更新</string>
+    <string name="page_settings_about_beta_build_title">获取测试版</string>
+    <string name="page_settings_about_beta_build_summary">获取每夜构建版（可能不稳定）。需登录 GitHub 账号才能下载构建产物</string>
     <string name="page_settings_about_app_update_placeholder_summary">点击检查 ZTool 应用更新</string>
     <string name="page_settings_about_app_update_latest_summary">当前已是最新版本</string>
     <string name="page_settings_about_app_update_failed_summary">检查失败：%1$s，点击重试</string>
@@ -193,6 +206,8 @@
     <string name="page_settings_about_view_issues_summary">提交 Bug 报告或功能建议</string>
     <string name="page_settings_about_license_title">许可证信息</string>
     <string name="page_settings_about_license_summary">本项目遵守 Apache 2.0 协议发布</string>
+    <string name="page_settings_about_user_agreement_title">用户协议</string>
+    <string name="page_settings_about_user_agreement_summary">查看 ZTool 用户协议全文</string>
     <string name="page_settings_about_qimian233_summary">项目发起人、Hook、用户界面</string>
     <string name="page_settings_about_wasd_destroy_summary">部分 Hook、部分用户界面</string>
     <string name="page_settings_about_uuuddddl">部分 Hook</string>
@@ -322,12 +337,19 @@
     <string name="common_font_preview_text">有言\n\n   与恶龙缠斗过久，自身亦成为恶龙；\n   凝视深渊过久，深渊将回以凝视。\n\n           ---弗里德里希·威廉·尼采</string>
     <!--设置页：一视界策略搜索页功能资源值-->
     <string name="settings_zui_force_config_title">小窗与分屏</string>
-    <string name="settings_zui_force_config_summary">需要重启系统，此项配置优先级相当高，会覆盖所有用户及系统配置，不勾选的应用保持系统默认行为</string>
+    <string name="settings_zui_force_config_summary">此项配置优先级相当高，会覆盖所有用户及系统配置，不勾选的应用保持系统默认行为</string>
+    <string name="settings_zui_force_config_hook_warning">注意：检测到「所有应用显示小窗入口」Hook 已开启，该 Hook 开启时此处配置文件定义的小窗行为可能被覆盖。</string>
     <string name="settings_zui_force_split_title">强制应用支持分屏</string>
     <string name="settings_zui_force_split_summary">修改系统配置文件，强制指定应用支持分屏</string>
     <string name="settings_zui_force_freeform_title">强制自由小窗</string>
     <string name="settings_zui_force_freeform_summary">与固定比例小窗冲突，强制指定应用使用任意比例小窗</string>
     <string name="settings_zui_force_fixed_title">强制固定比例小窗</string>
+    <string name="settings_edge_bubble_title">小窗贴边气泡</string>
+    <string name="settings_edge_bubble_summary">将小窗拖出屏幕边缘后自动收纳为气泡，点击气泡可恢复；需重启系统后生效</string>
+    <string name="settings_edge_bubble_hint">请保持 ZTool 在后台常驻</string>
+    <string name="edge_bubble_notification_channel">小窗贴边气泡</string>
+    <string name="edge_bubble_notification_title">小窗贴边气泡已启用</string>
+    <string name="edge_bubble_notification_text">保持此服务运行以显示贴边气泡</string>
     <string name="settings_zui_force_fixed_summary">与自由小窗冲突，强制指定应用使用固定比例小窗</string>
     <string name="settings_saving_config">正在保存系统配置…</string>
     <string name="settings_save_success_message">保存成功</string>
@@ -396,7 +418,7 @@
     <string name="settings_float_app_mandatory">强制小窗</string>
     <string name="settings_float_app_mandatory_summary">强制所有APP能够小窗运行，仅安卓15及以下</string>
     <string name="settings_split_screen_mandatory_title">强制分屏</string>
-    <string name="settings_split_screen_mandatory_summary">强制所有APP能够分屏运行，仅安卓15及以下，需要重启系统</string>
+    <string name="settings_split_screen_mandatory_summary">强制所有APP能够分屏运行，仅安卓15及以下</string>
     <!--设置页：杂项资源值-->
     <string name="settings_font_settings_title">字体</string>
     <string name="settings_import_font_title">导入字体</string>
@@ -456,7 +478,7 @@
     <string name="system_ui_misc_aosp_scroll_capture_title">AOSP 长截屏</string>
     <string name="system_ui_misc_aosp_scroll_capture_summary">借用 AOSP 基础设施让长截屏功能始终可用，不保证截屏效果良好。</string>
     <string name="system_ui_misc_shade_rebound_fix_title">修复控制中心回弹延迟</string>
-    <string name="system_ui_misc_shade_rebound_fix_summary">用 AOSP 标准下拉动画替代 ZUI 自定义弹簧动画，消除铺满后回弹延迟。需重启系统界面生效。</string>
+    <string name="system_ui_misc_shade_rebound_fix_summary">用 AOSP 标准下拉动画替代 ZUI 自定义弹簧动画，消除铺满后回弹延迟</string>
     <!--系统界面 状态栏时钟页资源值-->
     <string name="system_ui_status_bar_clock_settings_title">状态栏时钟设置</string>
     <string name="system_ui_status_bar_display_seconds_title">显示秒数</string>
@@ -509,9 +531,9 @@
     <!--系统界面 锁屏页资源值-->
     <string name="system_ui_lock_screen_widgets_title">锁屏组件</string>
     <string name="system_ui_lock_screen_yi_yan_switch_title">随机锁屏签名</string>
-    <string name="system_ui_lock_screen_yi_yan_summary">在锁屏页面显示从网络获取的随机文本，设置后请重启系统</string>
+    <string name="system_ui_lock_screen_yi_yan_summary">在锁屏页面显示从网络获取的随机文本</string>
     <string name="system_ui_animation_charge_anim_duration_title">自定义充电动画时长</string>
-    <string name="system_ui_animation_charge_anim_duration_summary">修改锁屏充电动画的播放时长，需重启系统界面生效</string>
+    <string name="system_ui_animation_charge_anim_duration_summary">修改锁屏充电动画的播放时长</string>
     <string name="system_ui_animation_charge_anim_duration_slider_title">动画时长</string>
     <string name="system_ui_animation_charge_anim_duration_slider_summary">控制充电动画超时结束的时间</string>
     <string name="system_ui_animation_charge_anim_duration_value">%.1f 秒</string>
@@ -593,9 +615,9 @@
     <string name="system_ui_common_select_font_color_title">选择字体颜色</string>
     <string name="system_ui_status_bar_clock_format_help_title">时钟格式帮助</string>
     <string name="system_ui_common_copy_example_button">复制示例</string>
-    <string name="system_ui_status_bar_clock_format_quick_help_summary">输入时间格式后可直接查看预览。常用格式符区分大小写，保存后重启作用域生效。</string>
+    <string name="system_ui_status_bar_clock_format_quick_help_summary">输入时间格式后可直接查看预览。常用格式符区分大小写。</string>
     <string name="system_ui_status_bar_clock_format_quick_help_note">需要日期时也可以使用 yyyy、MM、dd。农历、时辰等扩展符号只在支持的系统界面中显示。</string>
-    <string name="system_ui_control_center_date_format_quick_help_summary">输入日期格式后可直接查看预览。常用格式符区分大小写，保存后重启作用域生效。</string>
+    <string name="system_ui_control_center_date_format_quick_help_summary">输入日期格式后可直接查看预览。常用格式符区分大小写。</string>
     <string name="system_ui_control_center_date_format_quick_help_note">也可以组合时间字段，例如 HH:mm。农历、节气等扩展符号只在支持的系统界面中显示。</string>
     <string name="system_ui_control_center_format_help_year">年份</string>
     <string name="system_ui_control_center_format_help_month">月份</string>
@@ -648,7 +670,7 @@
     <string name="launcher_app_icon_unmask_dynamic_title">包含动态图标</string>
     <string name="launcher_app_icon_unmask_dynamic_summary">时钟等动态图标也按原始样式显示。注意：重建为静态位图后时钟将定格，不再随时间走动</string>
     <string name="launcher_wide_grid_title">扩展桌面网格宽度</string>
-    <string name="launcher_wide_grid_summary">让图标网格向屏幕左右边缘扩展，充分利用桌面横向空间。生效需重启桌面</string>
+    <string name="launcher_wide_grid_summary">让图标网格向屏幕左右边缘扩展，充分利用桌面横向空间</string>
     <string name="launcher_wide_grid_square_title">正方形网格</string>
     <string name="launcher_wide_grid_square_summary">自动计算左右留白，使网格单元为正方形。开启时忽略下方左右留白设置</string>
     <string name="launcher_wide_grid_side_inset_title">左右留白</string>
@@ -685,7 +707,7 @@
     <string name="sogou_ime_app_name">搜狗输入法（联想OEM）</string>
     <string name="sogou_ime_app_description">输入法增强：强制半角符号输出、标点干预等</string>
     <string name="sogou_ime_punct_section_title">标点符号</string>
-    <string name="system_framework_half_width_punct_summary">中文模式下，列表中的符号强制以半角上屏（需重启输入法生效）。默认 #*-+=，与 PC 输入法惯例一致；纯中文标点（。，《》等）不受影响。</string>
+    <string name="system_framework_half_width_punct_summary">中文模式下，列表中的符号强制以半角上屏。默认 #*-+=，与 PC 输入法惯例一致；纯中文标点（。，《》等）不受影响。</string>
     <string name="system_framework_half_width_punct_hint">需要半角输出的符号列表</string>
     <string name="system_framework_half_width_punct_supporting">全角/半角等价，配对符号自动成对生效。例：#*-+=</string>
     <string name="system_framework_screen_and_display_title">屏幕与显示</string>
@@ -703,23 +725,23 @@
     <string name="system_framework_pkgmgr_section_title">包管理服务</string>
     <string name="system_framework_pkgmgr_android16_note">提示：核心破解功能组仅针对 Android 16 适配，在其他系统版本上可能不生效或引发异常。</string>
     <string name="system_framework_pkgmgr_allow_downgrade_title">允许降级安装</string>
-    <string name="system_framework_pkgmgr_allow_downgrade_summary">跳过 versionCode 比较，允许安装版本号低于已装版本的 APK，重启系统后生效</string>
+    <string name="system_framework_pkgmgr_allow_downgrade_summary">跳过 versionCode 比较，允许安装版本号低于已装版本的 APK</string>
     <string name="system_framework_pkgmgr_bypass_verification_title">绕过签名校验</string>
-    <string name="system_framework_pkgmgr_bypass_verification_summary">跳过安装时的签名与摘要校验，允许安装签名不符或被修改的 APK，重启系统后生效</string>
+    <string name="system_framework_pkgmgr_bypass_verification_summary">跳过安装时的签名与摘要校验，允许安装签名不符或被修改的 APK</string>
     <string name="system_framework_pkgmgr_disable_verification_agent_title">关闭安装校验代理</string>
-    <string name="system_framework_pkgmgr_disable_verification_agent_summary">安装时不再向校验代理发送验证请求，重启系统后生效</string>
+    <string name="system_framework_pkgmgr_disable_verification_agent_summary">安装时不再向校验代理发送验证请求</string>
     <string name="system_framework_pkgmgr_bypass_digest_title">绕过签名身份校验</string>
-    <string name="system_framework_pkgmgr_bypass_digest_summary">忽略升级时的签名证书变化，允许使用不同签名覆盖安装，重启系统后生效</string>
+    <string name="system_framework_pkgmgr_bypass_digest_summary">忽略升级时的签名证书变化，允许使用不同签名覆盖安装</string>
     <string name="system_framework_pkgmgr_use_previous_signatures_title">沿用已安装应用签名</string>
     <string name="system_framework_pkgmgr_use_previous_signatures_summary">签名权限判定沿用已安装版本的签名记录，需先开启绕过签名身份校验</string>
     <string name="system_framework_pkgmgr_bypass_exact_sig_match_title">绕过精确签名比对</string>
-    <string name="system_framework_pkgmgr_bypass_exact_sig_match_summary">视为与已安装版本签名完全一致，重启系统后生效</string>
+    <string name="system_framework_pkgmgr_bypass_exact_sig_match_summary">视为与已安装版本签名完全一致</string>
     <string name="system_framework_pkgmgr_bypass_shared_user_title">绕过 sharedUserId 签名限制</string>
-    <string name="system_framework_pkgmgr_bypass_shared_user_summary">允许签名不同的应用加入同一 sharedUserId，需与绕过签名身份校验同时开启，重启系统后生效</string>
+    <string name="system_framework_pkgmgr_bypass_shared_user_summary">允许签名不同的应用加入同一 sharedUserId，需与绕过签名身份校验同时开启</string>
     <string name="system_framework_pkgmgr_allow_hidden_apis_title">系统应用允许隐藏 API</string>
-    <string name="system_framework_pkgmgr_allow_hidden_apis_summary">非平台签名的系统应用也放行隐藏 API 访问，重启系统后生效</string>
+    <string name="system_framework_pkgmgr_allow_hidden_apis_summary">非平台签名的系统应用也放行隐藏 API 访问</string>
     <string name="system_framework_pkgmgr_bypass_arsc_title">绕过 resources.arsc 限制</string>
-    <string name="system_framework_pkgmgr_bypass_arsc_summary">允许安装 resources.arsc 未满足未压缩与对齐要求的 APK，重启系统后生效</string>
+    <string name="system_framework_pkgmgr_bypass_arsc_summary">允许安装 resources.arsc 未满足未压缩与对齐要求的 APK</string>
     <!--安全中心功能页的资源值-->
     <string name="safe_center_bypass_docements_ui">允许选择用户根目录</string>
     <string name="safe_center_bypass_docements_ui_summary">解决无法使用此文件夹，允许在/storage/emulated/0/等受限目录进行选择操作</string>
@@ -872,6 +894,11 @@
     <string name="page_home_non_zuxos_dismiss">不再提示</string>
     <string name="page_settings_display_entry_in_settings">在设置中显示入口</string>
     <string name="page_settings_display_entry_in_settings_summary">需要重启系统设置 APP</string>
+    <string name="page_settings_show_all_apps">显示全部应用</string>
+    <string name="page_settings_show_all_apps_summary">在功能面板显示被冻结或卸载的应用</string>
+    <string name="page_settings_hide_from_recents">在最近任务中隐藏</string>
+    <string name="page_settings_hide_launcher_icon">隐藏桌面图标</string>
+    <string name="page_settings_hide_launcher_icon_summary">请在 LSPosed 中关闭“强制显示桌面图标”开关</string>
     <string name="system_ui_control_center_show_brightness_slider_percentage">显示亮度滑动条百分比</string>
     <string name="system_ui_control_center_show_volume_slider_percentage">显示音量滑动条百分比</string>
     <string name="system_ui_control_center_long_press_title">控制中心长按动效</string>
@@ -902,9 +929,32 @@
     <string name="page_settings_misc_title">杂项</string>
     <string name="page_settings_misc_summary">其余维护工具与设备信息</string>
     <string name="page_settings_advanced_reset_title">重置所有被修改的持久化值</string>
+    <string name="preference_editor_title">偏好值编辑器</string>
+    <string name="preference_editor_summary">读写模块远程配置与主题本地配置的原始偏好值</string>
+    <string name="preference_editor_target_label">目标配置文件</string>
+    <string name="preference_editor_key_label">偏好键 (Key)</string>
+    <string name="preference_editor_value_label">偏好值 (Value)</string>
+    <string name="preference_editor_read">读取</string>
+    <string name="preference_editor_write">写入</string>
+    <string name="preference_editor_list">列举</string>
+    <string name="preference_editor_delete">删除</string>
+    <string name="preference_editor_value_null">(null)</string>
+    <string name="preference_editor_via_remote">路径：远程偏好（LSPosed 服务）</string>
+    <string name="preference_editor_via_local_fallback">路径：本地回退文件</string>
+    <string name="preference_editor_result_write_success">写入成功：%1$s（%2$s）</string>
+    <string name="preference_editor_result_delete_success">删除成功：%1$s</string>
+    <string name="preference_editor_result_list_header">共 %1$d 项偏好值：</string>
+    <string name="preference_editor_result_failure">操作失败 [%1$s]：%2$s</string>
+    <string name="preference_editor_result_type_error">类型错误</string>
+    <string name="preference_editor_result_key_not_found">键名错误</string>
+    <string name="preference_editor_result_other_error">其他错误</string>
+    <string name="preference_editor_unregistered_write_title">未注册的键</string>
+    <string name="preference_editor_unregistered_write_message">键 “%1$s” 未在 PreferenceKeys 中注册，将以字符串（String）类型写入，后续按其他类型读取可能失败。是否继续？</string>
+    <string name="preference_editor_delete_registered_title">删除已注册的键</string>
+    <string name="preference_editor_delete_registered_message">键 “%1$s” 是已注册的偏好键，删除后相关功能将回退到默认值。确定删除吗？</string>
     <string name="page_settings_advanced_reset_summary">重置本应用 Hook 修改的应用自启动、设备属性值等持久化信息</string>
     <string name="page_settings_advanced_reset_confirm_title">确认重置持久化值？</string>
-    <string name="page_settings_advanced_reset_confirm_message">将清除本应用 Hook 曾经写入的持久化设置（如原生 AOD 开关等），使其恢复系统默认状态。\n\n需要 Root 权限，此操作不可撤销。</string>
+    <string name="page_settings_advanced_reset_confirm_message">将清除本应用 Hook 曾经写入的持久化设置（如原生 AOD 开关等），使其恢复系统默认状态。\n\n此操作不可撤销。</string>
     <string name="page_settings_advanced_reset_starting">正在重置持久化值…</string>
     <string name="page_settings_advanced_reset_in_progress">重置进行中…</string>
     <string name="page_settings_advanced_reset_result">成功 %1$d，失败 %2$d，不支持 %3$d</string>
@@ -929,14 +979,19 @@
     <string name="page_settings_advanced_delete_ota_package_title">删除系统更新包</string>
     <string name="page_settings_advanced_delete_ota_package_summary">删除 UDS 实时连接引擎自动下载到 /data/ota_package 的更新包</string>
     <string name="page_settings_advanced_delete_ota_package_confirm_title">删除系统更新包？</string>
-    <string name="page_settings_advanced_delete_ota_package_confirm_message">将删除 /data/ota_package 目录下的全部内容，包括 UDS 实时连接引擎自动下载的更新包。\n\n需要 Root 权限，此操作不可撤销。</string>
+    <string name="page_settings_advanced_delete_ota_package_confirm_message">将删除 /data/ota_package 目录下的全部内容，包括 UDS 实时连接引擎自动下载的更新包。\n\n此操作不可撤销。</string>
     <string name="page_settings_advanced_delete_ota_package_in_progress">正在删除…</string>
     <string name="page_settings_advanced_delete_ota_package_result_success">已删除 /data/ota_package</string>
     <string name="page_settings_advanced_delete_ota_package_result_not_exist">/data/ota_package 不存在，无需删除</string>
     <string name="page_settings_advanced_delete_ota_package_result_failed">删除失败：%s</string>
     <!--工程代码（secret code）入口页资源值-->
     <string name="engineering_codes_title">联想工程代码</string>
-    <string name="engineering_codes_summary">通过拨号盘 secret code 可打开的工程屏幕，需要 Root 权限</string>
+    <string name="engineering_codes_summary">通过拨号盘 secret code 可打开的工程屏幕</string>
+    <string name="page_settings_misc_open_reduce_bright_colors_title">极暗模式</string>
+    <string name="page_settings_misc_open_reduce_bright_colors_summary">打开系统设置中的极暗模式页面</string>
+    <string name="page_settings_misc_open_app_battery_usage_title">电池优化</string>
+    <string name="page_settings_misc_open_app_battery_usage_summary">打开系统设置中的电池优化页面</string>
+    <string name="common_open_settings_page_failed">无法打开系统页面：%1$s</string>
     <string name="engineering_codes_dial_prefix">拨号盘代码：*#*#%1$s#*#*</string>
     <string name="engineering_codes_launching">正在启动工程屏幕…</string>
     <string name="engineering_codes_launch_failed_with_reason">启动失败：%1$s</string>
@@ -959,6 +1014,8 @@
     <string name="system_framework_allow_relative_app_launch_title">总是允许关联 APP 启动</string>
     <string name="system_framework_force_relative_app_freeform_title">关联启动时强制小窗打开</string>
     <string name="launcher_disable_recent_app_display">在 Dock 栏隐藏最近使用的 APP</string>
+    <string name="launcher_force_freeform_entry_title">所有应用显示小窗入口</string>
+    <string name="launcher_force_freeform_entry_summary">跳过系统小窗白名单与客户端开关判断，在最近任务菜单中为所有应用显示小窗入口</string>
 
     <!--桌面动态壁纸页资源值-->
     <string name="system_ui_animation_desktop_live_wallpaper_title">桌面动态壁纸</string>
@@ -990,8 +1047,9 @@
     <!-- Hook 侧读取（BatchUninstall）；经 getIdentifier 按名加载，勿改名勿删 -->
     <string name="ztool_batch_uninstall_button" tools:ignore="UnusedResources">卸载应用</string>
     <string name="tile_media_output_label">媒体输出</string>
+    <string name="tile_reduce_bright_colors_label">极暗模式</string>
     <string name="system_ui_media_output_dialog_center_title">媒体输出弹窗居中</string>
-    <string name="system_ui_media_output_dialog_center_summary">修正从"媒体输出"磁贴拉起的输出切换弹窗贴屏幕左缘的问题，需重启 SystemUI 生效</string>
+    <string name="system_ui_media_output_dialog_center_summary">修正从"媒体输出"磁贴拉起的输出切换弹窗贴屏幕左缘的问题</string>
     <string name="ztool_batch_uninstall_no_apps" tools:ignore="UnusedResources">所选中内容没有可卸载的应用</string>
     <string name="system_ui_animation_wallpaper_title_suffix">\ - 动画与壁纸</string>
     <string name="system_ui_animation_wallpaper_setting_title">动画与壁纸</string>

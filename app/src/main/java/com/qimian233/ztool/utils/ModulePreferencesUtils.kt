@@ -11,6 +11,7 @@ import com.qimian233.ztool.ModuleActivationProbe
 import com.qimian233.ztool.XposedServiceBridge
 import com.qimian233.ztool.data.keys.PreferenceKeys
 import java.io.File
+import java.util.TreeMap
 import androidx.core.content.edit
 
 /**
@@ -25,9 +26,7 @@ class ModulePreferencesUtils(
     private val modulePackageName: String = "com.qimian233.ztool"
 ) {
 
-    // ═══════════════════════════════════════════════════════════
     // SharedPreferences instance access
-    // ═══════════════════════════════════════════════════════════
 
     val modulePreferences: SharedPreferences
         get() {
@@ -51,9 +50,18 @@ class ModulePreferencesUtils(
             }
         }
 
-    // ═══════════════════════════════════════════════════════════
+    /**
+     * True when [modulePreferences] currently resolves to the LSPosed remote
+     * preferences service rather than a local fallback file.
+     */
+    val isUsingRemotePreferences: Boolean
+        get() = try {
+            ModuleActivationProbe.isModuleActive() && XposedServiceBridge.currentService != null
+        } catch (_: Exception) {
+            false
+        }
+
     // Boolean
-    // ═══════════════════════════════════════════════════════════
 
     fun loadBooleanSetting(featureName: String, defaultValue: Boolean): Boolean {
         val prefs = modulePreferences
@@ -91,9 +99,7 @@ class ModulePreferencesUtils(
         return success
     }
 
-    // ═══════════════════════════════════════════════════════════
     // String
-    // ═══════════════════════════════════════════════════════════
 
     fun loadStringSetting(featureName: String, defaultValue: String): String {
         val prefs = modulePreferences
@@ -126,9 +132,7 @@ class ModulePreferencesUtils(
         }
     }
 
-    // ═══════════════════════════════════════════════════════════
     // Int
-    // ═══════════════════════════════════════════════════════════
 
     @SuppressLint("ApplySharedPref")
     fun saveIntegerSetting(featureName: String, value: Int) {
@@ -161,9 +165,7 @@ class ModulePreferencesUtils(
         }
     }
 
-    // ═══════════════════════════════════════════════════════════
     // Float
-    // ═══════════════════════════════════════════════════════════
 
     @SuppressLint("ApplySharedPref")
     fun saveFloatSetting(featureName: String, value: Float) {
@@ -196,9 +198,20 @@ class ModulePreferencesUtils(
         }
     }
 
-    // ═══════════════════════════════════════════════════════════
+    /**
+     * Removes a single key from the module preferences (remote when available,
+     * local fallback otherwise). Returns the commit result.
+     */
+    @SuppressLint("ApplySharedPref")
+    fun removeSetting(featureName: String): Boolean {
+        val success = modulePreferences.edit()
+            .remove(featureName)
+            .commit()
+        Log.d(TAG, "Removed $featureName, success: $success")
+        return success
+    }
+
     // Batch operations
-    // ═══════════════════════════════════════════════════════════
 
     @SuppressLint("WorldReadableFiles", "ApplySharedPref")
     fun clearAllSettings() {
@@ -210,7 +223,7 @@ class ModulePreferencesUtils(
         return try {
             val prefs = modulePreferences
             @Suppress("UNCHECKED_CAST")
-            val allEntries = HashMap(prefs.all) as HashMap<String, Any>
+            val allEntries = TreeMap<String, Any>().apply { putAll(prefs.all as Map<String, Any>) }
             Log.d(TAG, "Successfully read all settings, entries: " + allEntries.size)
             allEntries
         } catch (e: Exception) {
@@ -223,7 +236,7 @@ class ModulePreferencesUtils(
         return try {
             val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
             @Suppress("UNCHECKED_CAST")
-            val allEntries = HashMap(prefs.all) as HashMap<String, Any>
+            val allEntries = TreeMap<String, Any>().apply { putAll(prefs.all as Map<String, Any>) }
             Log.d(TAG, "Successfully read local settings, entries: " + allEntries.size)
             allEntries
         } catch (e: Exception) {
@@ -249,9 +262,7 @@ class ModulePreferencesUtils(
         Log.d(TAG, "Cleared local module preferences, success: $cleared")
     }
 
-    // ═══════════════════════════════════════════════════════════
     // JSON serialization
-    // ═══════════════════════════════════════════════════════════
 
     fun getAllSettingsAsJSON(): String? {
         return try {
@@ -264,9 +275,7 @@ class ModulePreferencesUtils(
         }
     }
 
-    // ═══════════════════════════════════════════════════════════
     // Config restore
-    // ═══════════════════════════════════════════════════════════
 
     fun writeJSONToSharedPrefs(jsonString: String) {
         val mapToWrite = jsonToHashMap(jsonString)
@@ -347,9 +356,7 @@ class ModulePreferencesUtils(
         }
     }
 
-    // ═══════════════════════════════════════════════════════════
     // Type coercion helpers
-    // ═══════════════════════════════════════════════════════════
 
     companion object {
         private const val PREFS_NAME = "xposed_module_config"
@@ -377,20 +384,20 @@ class ModulePreferencesUtils(
             }
         }
 
-        fun jsonToHashMap(jsonString: String): HashMap<String, Any> {
+        fun jsonToHashMap(jsonString: String): Map<String, Any> {
             return try {
                 val gson = Gson()
-                val type = object : TypeToken<HashMap<String, Any>>() {}.type
-                val map: HashMap<String, Any> = gson.fromJson(jsonString, type)
+                val type = object : TypeToken<Map<String, Any>>() {}.type
+                val map: Map<String, Any> = gson.fromJson(jsonString, type)
                 processMapValues(map)
             } catch (e: Exception) {
                 Log.e("JsonToMapConverter", "JSON conversion failed", e)
-                HashMap()
+                emptyMap()
             }
         }
 
-        private fun processMapValues(map: HashMap<String, Any>): HashMap<String, Any> {
-            val processedMap = HashMap<String, Any>()
+        private fun processMapValues(map: Map<String, Any>): Map<String, Any> {
+            val processedMap = TreeMap<String, Any>()
             for ((key, value) in map) {
                 when (value) {
                     is Double -> {

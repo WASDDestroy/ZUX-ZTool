@@ -34,7 +34,10 @@ class ForceRelativeAppFreeform: SystemHookModule() {
 
         private val LOCK = Any()
 
-        private fun resolveLauncherPackages(autoRunInstance: Any): Set<String> {
+        private fun resolveLauncherPackages(
+            autoRunInstance: Any,
+            log: (String) -> Unit
+        ): Set<String> {
             val now = System.currentTimeMillis()
             val cached = launcherPkgs
             if (cached != null && now < launcherCacheExpire) return cached
@@ -47,17 +50,30 @@ class ForceRelativeAppFreeform: SystemHookModule() {
                     val ctx = ctxField.get(autoRunInstance) as? android.content.Context
                     if (ctx != null) {
                         val pm: PackageManager = ctx.packageManager
+                        // Query both HOME and DEFAULT categories so launchers whose
+                        // MAIN activity lacks CATEGORY_HOME (e.g. leanback / dual-home)
+                        // are still collected.
                         val homeIntent = Intent(Intent.ACTION_MAIN).apply {
                             addCategory(Intent.CATEGORY_HOME)
+                            addCategory(Intent.CATEGORY_DEFAULT)
                         }
                         val pkgs = pm.queryIntentActivities(homeIntent, 0)
                             .mapNotNull { it.activityInfo?.packageName }
                             .toSet()
-                        launcherPkgs = pkgs
-                        launcherCacheExpire = System.currentTimeMillis() + LAUNCHER_CACHE_TTL
-                        return pkgs
+                        if (pkgs.isNotEmpty()) {
+                            launcherPkgs = pkgs
+                            launcherCacheExpire = System.currentTimeMillis() + LAUNCHER_CACHE_TTL
+                        }
+                        log(
+                            "resolveLauncherPackages: query ACTION_MAIN|HOME|DEFAULT -> $pkgs" +
+                                " (cached=${pkgs.isNotEmpty()})"
+                        )
+                        return pkgs.ifEmpty { setOf(ScopeKeys.LAUNCHER.packageName) }
                     }
-                } catch (_: Exception) { }
+                    log("resolveLauncherPackages: mContext field resolved to null, fallback")
+                } catch (e: Exception) {
+                    log("resolveLauncherPackages: query failed: ${e.javaClass.simpleName}: ${e.message}")
+                }
             }
             return setOf(ScopeKeys.LAUNCHER.packageName)
         }
@@ -101,12 +117,32 @@ class ForceRelativeAppFreeform: SystemHookModule() {
             // over intent.package (which the SDK may set to the caller's own package)
             val targetPackage = intent?.component?.packageName ?: intent?.getPackage()
 
-            // Inject freeform only for cross-app relative launches
-            // Excluded: same-package self launches and launchers
-            val launchers = resolveLauncherPackages(chain.thisObject)
+            val launchers = resolveLauncherPackages(chain.thisObject) { logger.debug(it) }
+
+            // Inject freeform only for cross-app relative launches.
+            // Excluded: same-package self launches, launcher-resolved launches,
+            // launches from ZTool itself, and document-picker style intents
+            // (CREATE_DOCUMENT / OPEN_DOCUMENT / OPEN_DOCUMENT_TREE / GET_CONTENT),
+            // which must stay fullscreen for a sane picker UX.
+            // NOTE: isTopAppPackage() is NOT usable here — the sender of a genuine
+            // relative start (e.g. QQ -> Bilibili deep link) is itself the visible
+            // top app, so a top-app check suppresses every classic use case.
+            val isDocumentIntent = intent != null && intent.action in setOf(
+                Intent.ACTION_CREATE_DOCUMENT,
+                Intent.ACTION_OPEN_DOCUMENT,
+                Intent.ACTION_OPEN_DOCUMENT_TREE,
+                Intent.ACTION_GET_CONTENT
+            )
             val isRelativeLaunch = callingPackage != null
                 && callingPackage != targetPackage
                 && callingPackage !in launchers
+                && callingPackage != "com.qimian233.ztool"
+                && !isDocumentIntent
+
+            logger.debug(
+                "relative-start check: caller=$callingPackage target=$targetPackage" +
+                    " launchers=$launchers intent=($intent) inject=$isRelativeLaunch"
+            )
 
             if (isRelativeLaunch) {
                 val bundle = chain.getArg(10) as Bundle?

@@ -23,18 +23,21 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowForward
 import androidx.compose.material.icons.automirrored.rounded.Article
 import androidx.compose.material.icons.automirrored.rounded.OpenInNew
+import androidx.compose.material.icons.rounded.Apps
 import androidx.compose.material.icons.rounded.Backup
 import androidx.compose.material.icons.rounded.Build
 import androidx.compose.material.icons.rounded.Category
 import androidx.compose.material.icons.rounded.DeleteForever
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.Language
+import androidx.compose.material.icons.rounded.HideSource
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material.icons.rounded.RestorePage
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.SettingsBackupRestore
 import androidx.compose.material.icons.rounded.Update
+import androidx.compose.material.icons.rounded.VisibilityOff
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -182,6 +185,9 @@ fun SettingsMainRoute(
             onOpenLanguageSettings = { openAppLanguageSettings(context) },
             onDetailedLoggingChanged = viewModel::setDetailedLoggingEnabled,
             onEntryDisplayChanged = viewModel::setDisplayEntryInSettings,
+            onShowAllAppsChanged = viewModel::setShowAllAppsEnabled,
+            onHideFromRecentsChanged = viewModel::setHideFromRecentsEnabled,
+            onHideLauncherIconChanged = viewModel::setLauncherIconHidden,
             onAbout = {
                 showRestoreConfirmDialog = false
                 onOpenAbout()
@@ -312,6 +318,9 @@ private fun SettingsRoute(
     onOpenThemeSettings: () -> Unit,
     onOpenLanguageSettings: () -> Unit,
     onEntryDisplayChanged: (Boolean) -> Unit,
+    onShowAllAppsChanged: (Boolean) -> Unit,
+    onHideFromRecentsChanged: (Boolean) -> Unit,
+    onHideLauncherIconChanged: (Boolean) -> Unit,
     onDetailedLoggingChanged: (Boolean) -> Unit,
     onAbout: () -> Unit,
     onExportLogs: () -> Unit,
@@ -367,6 +376,9 @@ private fun SettingsRoute(
                         onOpenThemeSettings = onOpenThemeSettings,
                         onOpenLanguageSettings = onOpenLanguageSettings,
                         onEntryDisplayChanged = onEntryDisplayChanged,
+                        onShowAllAppsChanged = onShowAllAppsChanged,
+                        onHideFromRecentsChanged = onHideFromRecentsChanged,
+                        onHideLauncherIconChanged = onHideLauncherIconChanged,
                         onDetailedLoggingChanged = onDetailedLoggingChanged,
                         onAbout = onAbout,
                         onExportLogs = onExportLogs,
@@ -392,6 +404,9 @@ private fun settingsSections(
     onOpenThemeSettings: () -> Unit,
     onOpenLanguageSettings: () -> Unit,
     onEntryDisplayChanged: (Boolean) -> Unit,
+    onShowAllAppsChanged: (Boolean) -> Unit,
+    onHideFromRecentsChanged: (Boolean) -> Unit,
+    onHideLauncherIconChanged: (Boolean) -> Unit,
     onDetailedLoggingChanged: (Boolean) -> Unit,
     onAbout: () -> Unit,
     onExportLogs: () -> Unit,
@@ -455,6 +470,29 @@ private fun settingsSections(
                     checked = state.isEntryDisplayedInSettings,
                     onCheckedChange = onEntryDisplayChanged,
                     icon = Icons.AutoMirrored.Rounded.OpenInNew
+                ),
+                SettingItem.Switch(
+                    key = "app_settings_show_all_apps",
+                    title = stringResource(R.string.page_settings_show_all_apps),
+                    summary = stringResource(R.string.page_settings_show_all_apps_summary),
+                    checked = state.isShowAllAppsEnabled,
+                    onCheckedChange = onShowAllAppsChanged,
+                    icon = Icons.Rounded.Apps
+                ),
+                SettingItem.Switch(
+                    key = "app_settings_hide_launcher_icon",
+                    title = stringResource(R.string.page_settings_hide_launcher_icon),
+                    summary = stringResource(R.string.page_settings_hide_launcher_icon_summary),
+                    checked = state.isLauncherIconHidden,
+                    onCheckedChange = onHideLauncherIconChanged,
+                    icon = Icons.Rounded.HideSource
+                ),
+                SettingItem.Switch(
+                    key = "app_settings_hide_from_recents",
+                    title = stringResource(R.string.page_settings_hide_from_recents),
+                    checked = state.isHideFromRecentsEnabled,
+                    onCheckedChange = onHideFromRecentsChanged,
+                    icon = Icons.Rounded.VisibilityOff
                 ),
                 SettingItem.Switch(
                     key = "app_settings_auto_check_update",

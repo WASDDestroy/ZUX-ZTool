@@ -75,7 +75,7 @@ class RecentTaskMemoryViewHook : AppHookModule() {
                 val enabled = chain.args[0] as Boolean
                 overviewEnabledStates[recentsView] = enabled
                 updateMemoryViewVisibility(recentsView)
-                logger.info("setOverviewStateEnabled hook executed successfully")
+                logger.debug("setOverviewStateEnabled hook executed successfully")
                 null
             }
 
@@ -84,7 +84,7 @@ class RecentTaskMemoryViewHook : AppHookModule() {
             hookWithId(setVisibilityMethod, "set_visibility") { chain ->
                 chain.proceed()
                 updateMemoryViewVisibility(chain.thisObject as View)
-                logger.info("setVisibility hook executed successfully")
+                logger.debug("setVisibility hook executed successfully")
                 null
             }
 
@@ -99,7 +99,7 @@ class RecentTaskMemoryViewHook : AppHookModule() {
             hookWithId(onLayoutMethod, "on_layout") { chain ->
                 chain.proceed()
                 attachMemoryView(chain.thisObject as View)
-                logger.info("onLayout hook executed successfully")
+                logger.debug("onLayout hook executed successfully")
                 null
             }
 
@@ -136,9 +136,21 @@ class RecentTaskMemoryViewHook : AppHookModule() {
             val memoryView = findMemoryView(dragLayer)
             if (memoryView != null) {
                 stopRefreshing(memoryView)
-                dragLayer.removeView(memoryView)
+                // During onDetachedFromWindow the whole tree detach traversal is in
+                // progress on dragLayer's ancestors; removing a child synchronously
+                // shifts mChildren under the traversal and crashes with NPE. Defer
+                // the removal to after the traversal completes.
+                dragLayer.post {
+                    try {
+                        if (memoryView.parent === dragLayer) {
+                            dragLayer.removeView(memoryView)
+                        }
+                    } catch (t: Throwable) {
+                        logger.error("Failed to remove memory view after detach", t)
+                    }
+                }
                 updateRunnables.remove(memoryView)
-                logger.debug("Memory view removed from launcher drag layer")
+                logger.debug("Memory view removal scheduled from launcher drag layer")
             }
             overviewEnabledStates.remove(recentsView)
         } catch (t: Throwable) {
